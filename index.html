@@ -14,6 +14,7 @@
           autofocus autocomplete="off"
           placeholder="What needs to be done?"
           :value="newTodo"
+          @change="setNewTodo"
           @keyup.enter="addTodo"
           >
         <!-- <input class="new-todo"
@@ -22,14 +23,14 @@
           v-model="newTodo"
           @keyup.enter="addTodo"> -->
       </header>
-      <!--
       <section class="main" v-show="todos.length" v-cloak>
-        <input class="toggle-all" type="checkbox" v-model="allDone">
+        <!-- <input class="toggle-all" type="checkbox" v-model="allDone"> -->
+
         <ul class="todo-list">
-          <li v-for="todo in filteredTodos"
+          <li v-for="todo in todos"
             class="todo"
             :key="todo.id"
-            :class="{ completed: todo.completed, editing: todo == editedTodo }">
+            :class="{ completed: todo.completed }">
             <div class="view">
               <input class="toggle" type="checkbox" v-model="todo.completed">
               <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
@@ -37,13 +38,13 @@
             </div>
             <input class="edit" type="text"
               v-model="todo.title"
-              v-todo-focus="todo == editedTodo"
               @blur="doneEdit(todo)"
               @keyup.enter="doneEdit(todo)"
               @keyup.esc="cancelEdit(todo)">
           </li>
         </ul>
       </section>
+      <!--
       <footer class="footer" v-show="todos.length" v-cloak>
         <span class="todo-count">
           <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left

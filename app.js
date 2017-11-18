@@ -9,10 +9,8 @@ const store = new Vuex.Store({
    newTodo: 'foo'
  },
  getters: {
-  newTodo: state => {
-    console.log('getters.newTodo')
-    return state.newTodo
-  }
+  newTodo: state => state.newTodo,
+  todos: state => state.todos
  },
  mutations: {
    GET_TODO(state, todo){
@@ -21,15 +19,16 @@ const store = new Vuex.Store({
    ADD_TODO(state){
       console.log('add todo', state.newTodo)
      state.todos.push({
-       body: state.newTodo,
-       completed: false
+       title: state.newTodo,
+       completed: false,
+       id: Math.random().toString(16).substr(2, 10)
      })
    },
    EDIT_TODO(state, todo){
       var todos = state.todos
       todos.splice(todos.indexOf(todo), 1)
       state.todos = todos
-      state.newTodo = todo.body
+      state.newTodo = todo.title
    },
    REMOVE_TODO(state, todo){
       var todos = state.todos
@@ -125,6 +124,9 @@ var app = new Vue({
   computed: {
     newTodo()  {
       return this.$store.getters.newTodo
+    },
+    todos() {
+      return this.$store.getters.todos
     }
   },
 
@@ -137,11 +139,17 @@ var app = new Vue({
   // methods that implement data logic.
   // note there's no DOM manipulation here at all.
   methods: {
+    setNewTodo (e) {
+      this.$store.dispatch('getTodo', e.target.value)
+    },
+
     addTodo (e) {
       e.target.value = ''
       this.$store.dispatch('addTodo')
       this.$store.dispatch('clearTodo')
     },
+
+    editTodo (todo) {}
   },
 
   // a custom directive to wait for the DOM to be updated
