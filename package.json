@@ -1,0 +1,23 @@
+{
+  "name": "vue-vuex-todomvc",
+  "version": "1.0.0",
+  "description": "Simple TodoMVC with Vue and Vuex",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": "json-server data.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmutov/vue-vuex-todomvc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bahmutov/vue-vuex-todomvc/issues"
+  },
+  "homepage": "https://github.com/bahmutov/vue-vuex-todomvc#readme",
+  "devDependencies": {
+    "json-server": "^0.12.1"
+  }
+}

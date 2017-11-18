@@ -3,26 +3,33 @@
 
 Vue.use(Vuex)
 
+function randomId () {
+  return Math.random().toString(16).substr(2, 10)
+}
+
 const store = new Vuex.Store({
  state: {
+    loading: true,
    todos: [],
-   newTodo: 'foo'
+   newTodo: ''
  },
  getters: {
   newTodo: state => state.newTodo,
   todos: state => state.todos
  },
  mutations: {
+    SET_LOADING(state, flag) {
+      state.loading = flag
+    },
+    SET_TODOS(state, todos) {
+      state.todos = todos
+    },
    GET_TODO(state, todo){
      state.newTodo = todo
    },
-   ADD_TODO(state){
-      console.log('add todo', state.newTodo)
-     state.todos.push({
-       title: state.newTodo,
-       completed: false,
-       id: Math.random().toString(16).substr(2, 10)
-     })
+   ADD_TODO(state, todoObject){
+      console.log('add todo', todoObject)
+     state.todos.push(todoObject)
    },
    EDIT_TODO(state, todo){
       var todos = state.todos
@@ -43,11 +50,29 @@ const store = new Vuex.Store({
    }
   },
  actions: {
+    loadTodos({commit}) {
+      commit('SET_LOADING', true)
+      axios.get('http://localhost:3000/todos')
+      .then(r => r.data)
+      .then(todos => {
+        commit('SET_TODOS', todos)
+        commit('SET_LOADING', false)
+      })
+    },
    getTodo({commit}, todo){
      commit('GET_TODO', todo)
    },
-   addTodo({commit}){
-     commit('ADD_TODO')
+   addTodo({commit, state}){
+      const todo = {
+       title: state.newTodo,
+       completed: false,
+       id: randomId()
+     }
+      axios.post('http://localhost:3000/todos', todo)
+      .then(_ => {
+        console.log('posted to server')
+        commit('ADD_TODO', todo)
+      })
    },
    editTodo({commit}, todo){
      commit('EDIT_TODO', todo)
@@ -65,20 +90,20 @@ const store = new Vuex.Store({
 })
 
 // localStorage persistence
-var STORAGE_KEY = 'todos-vuejs-2.0'
-var todoStorage = {
-  fetch: function () {
-    var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-    todos.forEach(function (todo, index) {
-      todo.id = index
-    })
-    todoStorage.uid = todos.length
-    return todos
-  },
-  save: function (todos) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-  }
-}
+// var STORAGE_KEY = 'todos-vuejs-2.0'
+// var todoStorage = {
+//   fetch: function () {
+//     var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+//     todos.forEach(function (todo, index) {
+//       todo.id = index
+//     })
+//     todoStorage.uid = todos.length
+//     return todos
+//   },
+//   save: function (todos) {
+//     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+//   }
+// }
 
 // visibility filters
 var filters = {
@@ -101,23 +126,9 @@ var filters = {
 var app = new Vue({
   store,
 
-  // app initial state
-  // data: {
-  //   todos: todoStorage.fetch(),
-  //   // newTodo: '',
-  //   editedTodo: null,
-  //   visibility: 'all'
-  // },
-
-  // watch todos change for localStorage persistence
-  // watch: {
-  //   todos: {
-  //     handler: function (todos) {
-  //       todoStorage.save(todos)
-  //     },
-  //     deep: true
-  //   }
-  // },
+  created () {
+    this.$store.dispatch('loadTodos')
+  },
 
   // computed properties
   // https://vuejs.org/guide/computed.html
