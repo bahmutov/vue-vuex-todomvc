@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Vue.js • TodoMVC</title>
     <link rel="stylesheet" href="https://unpkg.com/todomvc-app-css@2.0.4/index.css">
-    <script src="https://unpkg.com/director@1.2.8/build/director.js"></script>
     <style>[v-cloak] { display: none; }</style>
   </head>
   <body>
@@ -14,9 +13,16 @@
         <input class="new-todo"
           autofocus autocomplete="off"
           placeholder="What needs to be done?"
+          :value="newTodo"
+          @keyup.enter="addTodo"
+          >
+        <!-- <input class="new-todo"
+          autofocus autocomplete="off"
+          placeholder="What needs to be done?"
           v-model="newTodo"
-          @keyup.enter="addTodo">
+          @keyup.enter="addTodo"> -->
       </header>
+      <!--
       <section class="main" v-show="todos.length" v-cloak>
         <input class="toggle-all" type="checkbox" v-model="allDone">
         <ul class="todo-list">
@@ -51,6 +57,7 @@
           Clear completed
         </button>
       </footer>
+    -->
     </section>
     <footer class="info">
       <p>Double-click to edit a todo</p>

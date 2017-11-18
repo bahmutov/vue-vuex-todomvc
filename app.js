@@ -6,13 +6,20 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
  state: {
    todos: [],
-   newTodo: ''
+   newTodo: 'foo'
+ },
+ getters: {
+  newTodo: state => {
+    console.log('getters.newTodo')
+    return state.newTodo
+  }
  },
  mutations: {
    GET_TODO(state, todo){
      state.newTodo = todo
    },
    ADD_TODO(state){
+      console.log('add todo', state.newTodo)
      state.todos.push({
        body: state.newTodo,
        completed: false
@@ -33,6 +40,7 @@ const store = new Vuex.Store({
    },
    CLEAR_TODO(state){
      state.newTodo = ''
+     console.log('clearing new todo')
    }
   },
  actions: {
@@ -92,42 +100,31 @@ var filters = {
 
 // app Vue instance
 var app = new Vue({
+  store,
+
   // app initial state
-  data: {
-    todos: todoStorage.fetch(),
-    newTodo: '',
-    editedTodo: null,
-    visibility: 'all'
-  },
+  // data: {
+  //   todos: todoStorage.fetch(),
+  //   // newTodo: '',
+  //   editedTodo: null,
+  //   visibility: 'all'
+  // },
 
   // watch todos change for localStorage persistence
-  watch: {
-    todos: {
-      handler: function (todos) {
-        todoStorage.save(todos)
-      },
-      deep: true
-    }
-  },
+  // watch: {
+  //   todos: {
+  //     handler: function (todos) {
+  //       todoStorage.save(todos)
+  //     },
+  //     deep: true
+  //   }
+  // },
 
   // computed properties
   // https://vuejs.org/guide/computed.html
   computed: {
-    filteredTodos: function () {
-      return filters[this.visibility](this.todos)
-    },
-    remaining: function () {
-      return filters.active(this.todos).length
-    },
-    allDone: {
-      get: function () {
-        return this.remaining === 0
-      },
-      set: function (value) {
-        this.todos.forEach(function (todo) {
-          todo.completed = value
-        })
-      }
+    newTodo()  {
+      return this.$store.getters.newTodo
     }
   },
 
@@ -140,47 +137,11 @@ var app = new Vue({
   // methods that implement data logic.
   // note there's no DOM manipulation here at all.
   methods: {
-    addTodo: function () {
-      var value = this.newTodo && this.newTodo.trim()
-      if (!value) {
-        return
-      }
-      this.todos.push({
-        id: todoStorage.uid++,
-        title: value,
-        completed: false
-      })
-      this.newTodo = ''
+    addTodo (e) {
+      e.target.value = ''
+      this.$store.dispatch('addTodo')
+      this.$store.dispatch('clearTodo')
     },
-
-    removeTodo: function (todo) {
-      this.todos.splice(this.todos.indexOf(todo), 1)
-    },
-
-    editTodo: function (todo) {
-      this.beforeEditCache = todo.title
-      this.editedTodo = todo
-    },
-
-    doneEdit: function (todo) {
-      if (!this.editedTodo) {
-        return
-      }
-      this.editedTodo = null
-      todo.title = todo.title.trim()
-      if (!todo.title) {
-        this.removeTodo(todo)
-      }
-    },
-
-    cancelEdit: function (todo) {
-      this.editedTodo = null
-      todo.title = this.beforeEditCache
-    },
-
-    removeCompleted: function () {
-      this.todos = filters.active(this.todos)
-    }
   },
 
   // a custom directive to wait for the DOM to be updated
