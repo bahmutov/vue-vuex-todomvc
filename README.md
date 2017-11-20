@@ -1,4 +1,4 @@
-# vue-vuex-todomvc
+# vue-vuex-todomvc [![Build Status](https://travis-ci.org/bahmutov/vue-vuex-todomvc.svg?branch=master)](https://travis-ci.org/bahmutov/vue-vuex-todomvc)
 
 Simple TodoMVC with [Vue.js](https://vuejs.org/)
 and [Vuex](https://vuex.vuejs.org/en/) data store.
@@ -7,7 +7,7 @@ Based on [this Vuex tutorial](https://codeburst.io/build-a-simple-todo-app-with-
 
 ## Use
 
-Clone this repository then 
+Clone this repository then
 
 ```
 npm install
