@@ -5,13 +5,15 @@
   "main": "app.js",
   "scripts": {
     "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "test:record": "start-server-and-test start http://localhost:3000 cy:run:record",
     "start": "json-server --static . data.json",
     "db": "json-server data.json",
     "pretest": "npm run lint",
     "lint": "standard '*.js' 'cypress/integration/*.js'",
     "prelint": "prettier-standard '*.js' 'cypress/integration/*.js'",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "cy:run:record": "cypress run --record"
   },
   "repository": {
     "type": "git",

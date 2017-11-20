@@ -9,6 +9,8 @@ node_js:
   - '6'
 before_script:
   - npm prune
+script:
+  - npm run test:record
 branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
