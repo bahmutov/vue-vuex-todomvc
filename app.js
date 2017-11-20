@@ -35,12 +35,6 @@ const store = new Vuex.Store({
       console.log('add todo', todoObject)
       state.todos.push(todoObject)
     },
-    EDIT_TODO (state, todo) {
-      var todos = state.todos
-      todos.splice(todos.indexOf(todo), 1)
-      state.todos = todos
-      state.newTodo = todo.title
-    },
     REMOVE_TODO (state, todo) {
       var todos = state.todos
       todos.splice(todos.indexOf(todo), 1)
@@ -57,7 +51,7 @@ const store = new Vuex.Store({
     loadTodos ({ commit }) {
       commit('SET_LOADING', true)
       axios
-        .get('http://localhost:3000/todos')
+        .get('todos')
         .then(r => r.data)
         .then(todos => {
           commit('SET_TODOS', todos)
@@ -73,7 +67,7 @@ const store = new Vuex.Store({
         completed: false,
         id: randomId()
       }
-      axios.post('http://localhost:3000/todos', todo).then(_ => {
+      axios.post('todos', todo).then(_ => {
         console.log('posted to server')
         commit('ADD_TODO', todo)
       })
@@ -82,10 +76,10 @@ const store = new Vuex.Store({
       commit('EDIT_TODO', todo)
     },
     removeTodo ({ commit }, todo) {
-      commit('REMOVE_TODO', todo)
-    },
-    completeTodo ({ commit }, todo) {
-      commit('COMPLETE_TODO', todo)
+      axios.delete(`todos/${todo.id}`).then(_ => {
+        console.log('removed todo', todo.id, 'from the server')
+        commit('REMOVE_TODO', todo)
+      })
     },
     clearTodo ({ commit }) {
       commit('CLEAR_TODO')
@@ -148,6 +142,12 @@ var app = new Vue({
       this.$store.dispatch('clearTodo')
     },
 
+    removeTodo (todo) {
+      console.log('removing todo')
+      console.log(todo)
+      this.$store.dispatch('removeTodo', todo)
+    },
+
     editTodo (todo) {}
   },
 
@@ -162,20 +162,6 @@ var app = new Vue({
     }
   }
 })
-
-// handle routing
-function onHashChange () {
-  var visibility = window.location.hash.replace(/#\/?/, '')
-  if (filters[visibility]) {
-    app.visibility = visibility
-  } else {
-    window.location.hash = ''
-    app.visibility = 'all'
-  }
-}
-
-window.addEventListener('hashchange', onHashChange)
-onHashChange()
 
 // mount
 app.$mount('.todoapp')
