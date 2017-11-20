@@ -4,12 +4,14 @@
   "description": "Simple TodoMVC with Vue and Vuex",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "start-server-and-test start http://localhost:3000 cy:run",
     "start": "json-server --static . data.json",
     "db": "json-server data.json",
     "pretest": "npm run lint",
-    "lint": "standard *.js",
-    "prelint": "prettier-standard *.js"
+    "lint": "standard '*.js' 'cypress/integration/*.js'",
+    "prelint": "prettier-standard '*.js' 'cypress/integration/*.js'",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,9 @@
     "json-server": "^0.12.1"
   },
   "devDependencies": {
+    "cypress": "^1.1.0",
     "prettier-standard": "^7.0.3",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "start-server-and-test": "^1.0.0"
   }
 }
