@@ -90,6 +90,7 @@ const store = new Vuex.Store({
 // app Vue instance
 var app = new Vue({
   store,
+  el: '.todoapp',
 
   created () {
     this.$store.dispatch('loadTodos')
@@ -145,6 +146,3 @@ var app = new Vue({
     }
   }
 })
-
-// mount
-app.$mount('.todoapp')

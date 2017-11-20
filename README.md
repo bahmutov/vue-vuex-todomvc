@@ -5,7 +5,18 @@ and [Vuex](https://vuex.vuejs.org/en/) data store.
 
 Based on [this Vuex tutorial](https://codeburst.io/build-a-simple-todo-app-with-vue-js-1778ae175514) and the basic official [TodoMVC vue.js example](https://github.com/vuejs/vue/tree/dev/examples/todomvc)
 
-Just open the [index.html](index.html) file in the browser.
+## Use
+
+Clone this repository then 
+
+```
+npm install
+npm start
+```
+
+Open `localhost:3000` in the browser.
+
+## Development
 
 The `app` global variable exposes the Vue instance.
 
