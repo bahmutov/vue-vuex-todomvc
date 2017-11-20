@@ -48,7 +48,7 @@
       loadTodos ({ commit }) {
         commit('SET_LOADING', true)
         axios
-          .get('todos')
+          .get('/todos')
           .then(r => r.data)
           .then(todos => {
             commit('SET_TODOS', todos)
@@ -68,13 +68,13 @@
           completed: false,
           id: randomId()
         }
-        axios.post('todos', todo).then(_ => {
+        axios.post('/todos', todo).then(_ => {
           console.log('posted to server')
           commit('ADD_TODO', todo)
         })
       },
       removeTodo ({ commit }, todo) {
-        axios.delete(`todos/${todo.id}`).then(_ => {
+        axios.delete(`/todos/${todo.id}`).then(_ => {
           console.log('removed todo', todo.id, 'from the server')
           commit('REMOVE_TODO', todo)
         })

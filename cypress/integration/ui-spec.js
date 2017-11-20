@@ -32,6 +32,6 @@ describe('UI', () => {
       .find('.destroy')
       .click({ force: true }) // because it only becomes visible on hover
 
-    getNewItem().should('not.exist')
+    cy.contains(title).should('not.exist')
   })
 })
