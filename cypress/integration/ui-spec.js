@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit } from './utils'
+import { resetDatabase, visit, newId } from './utils'
 
 describe('UI', () => {
   beforeEach(resetDatabase)
@@ -11,9 +11,7 @@ describe('UI', () => {
   })
 
   it('adds and deletes an item', () => {
-    const id = Math.random()
-      .toString(16)
-      .substr(2, 10)
+    const id = newId()
     const title = `new item ${id}`
 
     const getNewItem = () =>
