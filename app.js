@@ -66,7 +66,6 @@
           id: randomId()
         }
         axios.post('/todos', todo).then(_ => {
-          console.log('posted to server')
           commit('ADD_TODO', todo)
         })
       },

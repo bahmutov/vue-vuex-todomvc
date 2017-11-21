@@ -70,6 +70,8 @@ describe('API', () => {
 
     enterTodo('first item')
 
+    // thanks to stubbed random id generator
+    // we can "predict" what the TODO object is going to look like
     cy
       .wait('@postTodo')
       .its('request.body')

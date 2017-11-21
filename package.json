@@ -29,7 +29,7 @@
     "json-server": "^0.12.1"
   },
   "devDependencies": {
-    "cypress": "^1.1.0",
+    "cypress": "^1.1.1",
     "prettier-standard": "^7.0.3",
     "standard": "^10.0.3",
     "start-server-and-test": "^1.0.0"
