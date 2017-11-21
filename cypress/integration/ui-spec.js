@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit, newId, enterTodo } from './utils'
+import { resetDatabase, visit, newId, enterTodo, getTodoItems } from './utils'
 
 describe('UI', () => {
   beforeEach(resetDatabase)
@@ -8,6 +8,12 @@ describe('UI', () => {
 
   it('loads application', () => {
     cy.get('.todoapp').should('be.visible')
+  })
+
+  it('adds two items', () => {
+    enterTodo('first item')
+    enterTodo('second item')
+    getTodoItems().should('have.length', 2)
   })
 
   it('adds and deletes an item', () => {

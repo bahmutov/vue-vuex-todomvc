@@ -4,7 +4,7 @@
 
   function randomId () {
     return Math.random()
-      .toString(16)
+      .toString()
       .substr(2, 10)
   }
 
