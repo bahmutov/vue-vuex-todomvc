@@ -16,6 +16,14 @@ npm start
 
 Open `localhost:3000` in the browser.
 
+## Tests
+
+All tests are implemented using [Cypress.io](https://www.cypress.io/)
+
+- [GUI E2E tests](cypress/integration/ui-spec.js)
+- [API tests](cypress/integration/api-spec.js)
+- [Vuex store tests](cypress/integration/store-spec.js)
+
 ## Development
 
 The `app` global variable exposes the Vue instance.
