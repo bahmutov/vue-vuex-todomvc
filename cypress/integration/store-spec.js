@@ -133,4 +133,29 @@ describe('Vuex store', () => {
       }
     ])
   })
+
+  it('can be driven by dispatching actions', () => {
+    store.dispatch('setNewTodo', 'a new todo')
+    store.dispatch('addTodo')
+    store.dispatch('clearNewTodo')
+
+    // assert UI
+    getTodoItems()
+      .should('have.length', 1)
+      .first()
+      .contains('a new todo')
+
+    // assert store
+    getStore().should('deep.equal', {
+      loading: false,
+      todos: [
+        {
+          title: 'a new todo',
+          completed: false,
+          id: '1'
+        }
+      ],
+      newTodo: ''
+    })
+  })
 })
