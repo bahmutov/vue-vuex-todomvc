@@ -1,11 +1,19 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit, makeTodo } from './utils'
+import {
+  resetDatabase,
+  visit,
+  makeTodo,
+  enterTodo,
+  getTodoItems,
+  stubNewId
+} from './utils'
 
 // testing TodoMVC server API
 describe('API', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
+  beforeEach(stubNewId)
 
   it('receives empty list of items', () => {
     cy
@@ -49,5 +57,44 @@ describe('API', () => {
       })
       .its('status')
       .should('equal', 404)
+  })
+
+  it('observes API call from the store to the backend when adding todo item', () => {
+    cy.server()
+    cy
+      .route({
+        method: 'POST',
+        url: '/todos'
+      })
+      .as('postTodo')
+
+    enterTodo('first item')
+
+    cy
+      .wait('@postTodo')
+      .its('request.body')
+      .should('deep.equal', {
+        title: 'first item',
+        completed: false,
+        id: '1'
+      })
+  })
+
+  it('observes API call from the store to the backend when deleting a todo item', () => {
+    cy.server()
+    cy
+      .route({
+        method: 'DELETE',
+        url: '/todos/1'
+      })
+      .as('deleteTodo')
+
+    enterTodo('first item')
+    getTodoItems()
+      .first()
+      .find('.destroy')
+      .click({ force: true })
+
+    cy.wait('@deleteTodo')
   })
 })
