@@ -1,15 +1,15 @@
 /* eslint-env mocha */
 /* global cy */
-describe('API', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
+import { resetDatabase, visit } from './utils'
 
-  it('receives list of items', () => {
-    cy.request('todos')
+describe('API', () => {
+  beforeEach(resetDatabase)
+  beforeEach(visit)
+
+  it('receives empty list of items', () => {
+    cy
+      .request('todos')
       .its('body')
-      .then(list => {
-        expect(list).to.be.an('array')
-      })
+      .should('deep.equal', [])
   })
 })

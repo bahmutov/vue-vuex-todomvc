@@ -6,14 +6,14 @@
   "scripts": {
     "test": "start-server-and-test start http://localhost:3000 cy:run",
     "test:record": "start-server-and-test start http://localhost:3000 cy:run:record",
-    "start": "json-server --static . data.json",
-    "db": "json-server data.json",
+    "start": "json-server --static . --watch data.json",
     "pretest": "npm run lint",
     "lint": "standard '*.js' 'cypress/integration/*.js'",
     "prelint": "prettier-standard '*.js' 'cypress/integration/*.js'",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:run:record": "cypress run --record"
+    "cy:run:record": "cypress run --record",
+    "reset:database": "echo '{\"todos\":[]}' > data.json"
   },
   "repository": {
     "type": "git",

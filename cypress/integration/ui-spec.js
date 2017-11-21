@@ -1,9 +1,10 @@
 /* eslint-env mocha */
 /* global cy */
+import { resetDatabase, visit } from './utils'
+
 describe('UI', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
+  beforeEach(resetDatabase)
+  beforeEach(visit)
 
   it('loads application', () => {
     cy.get('.todoapp').should('be.visible')
