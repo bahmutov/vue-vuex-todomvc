@@ -25,7 +25,7 @@
       SET_TODOS (state, todos) {
         state.todos = todos
       },
-      GET_TODO (state, todo) {
+      SET_NEW_TODO (state, todo) {
         state.newTodo = todo
       },
       ADD_TODO (state, todoObject) {
@@ -36,10 +36,7 @@
         var todos = state.todos
         todos.splice(todos.indexOf(todo), 1)
       },
-      COMPLETE_TODO (state, todo) {
-        todo.completed = !todo.completed
-      },
-      CLEAR_TODO (state) {
+      CLEAR_NEW_TODO (state) {
         state.newTodo = ''
         console.log('clearing new todo')
       }
@@ -55,8 +52,8 @@
             commit('SET_LOADING', false)
           })
       },
-      getTodo ({ commit }, todo) {
-        commit('GET_TODO', todo)
+      setNewTodo ({ commit }, todo) {
+        commit('SET_NEW_TODO', todo)
       },
       addTodo ({ commit, state }) {
         if (!state.newTodo) {
@@ -79,8 +76,8 @@
           commit('REMOVE_TODO', todo)
         })
       },
-      clearTodo ({ commit }) {
-        commit('CLEAR_TODO')
+      clearNewTodo ({ commit }) {
+        commit('CLEAR_NEW_TODO')
       }
     }
   })
@@ -109,18 +106,16 @@
     // note there's no DOM manipulation here at all.
     methods: {
       setNewTodo (e) {
-        this.$store.dispatch('getTodo', e.target.value)
+        this.$store.dispatch('setNewTodo', e.target.value)
       },
 
       addTodo (e) {
         e.target.value = ''
         this.$store.dispatch('addTodo')
-        this.$store.dispatch('clearTodo')
+        this.$store.dispatch('clearNewTodo')
       },
 
       removeTodo (todo) {
-        console.log('removing todo')
-        console.log(todo)
         this.$store.dispatch('removeTodo', todo)
       }
     }

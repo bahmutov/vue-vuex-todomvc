@@ -1,10 +1,18 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit, newId, enterTodo, getTodoItems } from './utils'
+import {
+  resetDatabase,
+  visit,
+  newId,
+  enterTodo,
+  getTodoItems,
+  stubNewId
+} from './utils'
 
 describe('UI', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
+  beforeEach(stubNewId)
 
   it('loads application', () => {
     cy.get('.todoapp').should('be.visible')
