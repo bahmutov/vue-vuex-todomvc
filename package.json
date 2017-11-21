@@ -13,7 +13,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:record": "cypress run --record",
-    "reset:database": "echo '{\"todos\":[]}' > data.json"
+    "reset:database": "echo '{\"todos\":[]}\n' > data.json"
   },
   "repository": {
     "type": "git",

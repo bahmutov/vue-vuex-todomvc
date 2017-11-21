@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit, newId } from './utils'
+import { resetDatabase, visit, newId, enterTodo } from './utils'
 
 describe('UI', () => {
   beforeEach(resetDatabase)
@@ -20,10 +20,7 @@ describe('UI', () => {
         .find('li')
         .contains(id)
 
-    cy
-      .get('.todoapp')
-      .find('.new-todo')
-      .type(`${title}{enter}`)
+    enterTodo(title)
 
     getNewItem()
       .should('be.visible')

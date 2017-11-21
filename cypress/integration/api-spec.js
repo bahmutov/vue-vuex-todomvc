@@ -1,21 +1,11 @@
 /* eslint-env mocha */
 /* global cy */
-import { resetDatabase, visit, newId } from './utils'
+import { resetDatabase, visit, makeTodo } from './utils'
 
 // testing TodoMVC server API
 describe('API', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
-
-  const makeTodo = () => {
-    const id = newId()
-    const title = `todo ${id}`
-    return {
-      id,
-      title,
-      completed: false
-    }
-  }
 
   it('receives empty list of items', () => {
     cy
