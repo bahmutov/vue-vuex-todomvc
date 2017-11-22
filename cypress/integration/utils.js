@@ -14,6 +14,13 @@ export const resetDatabase = () => {
 
 export const visit = () => cy.visit('/')
 
+export const getTodoApp = () => cy.get('.todoapp')
+
+export const getTodoItems = () =>
+  getTodoApp()
+    .find('.todo-list')
+    .find('li')
+
 export const newId = () =>
   Math.random()
     .toString()
@@ -45,9 +52,6 @@ export const makeTodo = (text = 'todo') => {
 }
 
 export const enterTodo = (text = 'example todo') =>
-  cy
-    .get('.todoapp')
+  getTodoApp()
     .find('.new-todo')
     .type(`${text}{enter}`)
-
-export const getTodoItems = () => cy.get('.todo-list').find('li')

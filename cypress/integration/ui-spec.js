@@ -3,45 +3,53 @@
 import {
   resetDatabase,
   visit,
-  newId,
+  getTodoApp,
   enterTodo,
-  getTodoItems,
-  stubNewId
+  getTodoItems
 } from './utils'
+
+it('loads the app', () => {
+  visit()
+  getTodoApp().should('be.visible')
+})
 
 describe('UI', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
-  beforeEach(stubNewId)
 
-  it('loads application', () => {
-    cy.get('.todoapp').should('be.visible')
-  })
+  context('basic features', () => {
+    it('loads application', () => {
+      getTodoApp().should('be.visible')
+    })
 
-  it('adds two items', () => {
-    enterTodo('first item')
-    enterTodo('second item')
-    getTodoItems().should('have.length', 2)
-  })
-
-  it('adds and deletes an item', () => {
-    const id = newId()
-    const title = `new item ${id}`
-
-    const getNewItem = () =>
+    it('starts with zero items', () => {
       cy
         .get('.todo-list')
         .find('li')
-        .contains(id)
+        .should('have.length', 0)
+    })
 
-    enterTodo(title)
+    it('adds two items', () => {
+      enterTodo('first item')
+      enterTodo('second item')
+      getTodoItems().should('have.length', 2)
+    })
+  })
 
-    getNewItem()
-      .should('be.visible')
-      .parent()
-      .find('.destroy')
-      .click({ force: true }) // because it only becomes visible on hover
+  context('advanced', () => {
+    it('adds two and deletes first', () => {
+      enterTodo('first item')
+      enterTodo('second item')
 
-    cy.contains(title).should('not.exist')
+      getTodoItems()
+        .contains('first item')
+        .parent()
+        .find('.destroy')
+        .click({ force: true }) // because it only becomes visible on hover
+
+      cy.contains('first item').should('not.exist')
+      cy.contains('second item').should('exist')
+      getTodoItems().should('have.length', 1)
+    })
   })
 })
