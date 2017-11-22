@@ -16,28 +16,23 @@ export const visit = () => cy.visit('/')
 
 export const getTodoApp = () => cy.get('.todoapp')
 
-export const getTodoItems = () =>
-  getTodoApp()
-    .find('.todo-list')
-    .find('li')
+export const getTodoItems = () => getTodoApp().find('.todo-list').find('li')
 
-export const newId = () =>
-  Math.random()
-    .toString()
-    .substr(2, 10)
+export const newId = () => Math.random().toString().substr(2, 10)
 
 // if we expose "newId" factory method from the application
 // we can easily stub it. But this is a realistic example of
 // stubbing "test window" random number generator
 // and "application window" random number generator that is
 // running inside the test iframe
-export const stubNewId = () => {
+export const stubMathRandom = () => {
   // first two digits are disregarded, so our "random" sequence of ids
   // should be '1', '2', '3', ...
   let counter = 101
-  cy.stub(Math, 'random').callsFake(_ => counter++)
+  cy.stub(Math, 'random').callsFake(() => counter++)
   cy.window().then(win => {
-    cy.stub(win.Math, 'random').callsFake(_ => counter++)
+    // inside test iframe
+    cy.stub(win.Math, 'random').callsFake(() => counter++)
   })
 }
 
@@ -52,6 +47,4 @@ export const makeTodo = (text = 'todo') => {
 }
 
 export const enterTodo = (text = 'example todo') =>
-  getTodoApp()
-    .find('.new-todo')
-    .type(`${text}{enter}`)
+  getTodoApp().find('.new-todo').type(`${text}{enter}`)

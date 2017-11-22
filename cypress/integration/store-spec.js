@@ -5,27 +5,92 @@ import {
   visit,
   newId,
   enterTodo,
-  stubNewId,
+  stubMathRandom,
   makeTodo,
   getTodoItems
 } from './utils'
 
 // testing the central Vuex data store
+describe('UI to Vuex store', () => {
+  beforeEach(resetDatabase)
+  beforeEach(visit)
+
+  const getStore = () => cy.window().its('app.$store')
+
+  it('has loading, newTodo and todos properties', () => {
+    getStore().its('state').should('have.keys', ['loading', 'newTodo', 'todos'])
+  })
+
+  it('starts empty', () => {
+    getStore().its('state').should('deep.equal', {
+      loading: true, // initially the store is loading data
+      todos: [],
+      newTodo: ''
+    })
+  })
+
+  it('can enter new todo text', () => {
+    const text = 'learn how to test with Cypress.io'
+    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
+
+    getStore().its('state.newTodo').should('equal', text)
+  })
+
+  it('stores todos in the store', () => {
+    enterTodo('first todo')
+    enterTodo('second todo')
+    const removeIds = list => list.map(todo => Cypress._.omit(todo, 'id'))
+    getStore().its('state.todos').then(removeIds).should('deep.equal', [
+      {
+        title: 'first todo',
+        completed: false
+      },
+      {
+        title: 'second todo',
+        completed: false
+      }
+    ])
+  })
+
+  const stubMathRandom = () => {
+    // first two digits are disregarded, so our "random" sequence of ids
+    // should be '1', '2', '3', ...
+    let counter = 101
+    cy.window().then(win => {
+      cy.stub(win.Math, 'random').callsFake(() => counter++)
+    })
+  }
+
+  it('stores todos in the store (with ids)', () => {
+    stubMathRandom()
+    enterTodo('first todo')
+    enterTodo('second todo')
+    getStore().its('state.todos').should('deep.equal', [
+      {
+        title: 'first todo',
+        completed: false,
+        id: '1'
+      },
+      {
+        title: 'second todo',
+        completed: false,
+        id: '2'
+      }
+    ])
+  })
+})
+
 describe('Vuex store', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
-  beforeEach(stubNewId)
+  beforeEach(stubMathRandom)
 
   let store
 
   beforeEach(() => {
-    cy
-      .window()
-      .its('app')
-      .its('$store')
-      .then(s => {
-        store = s
-      })
+    cy.window().its('app').its('$store').then(s => {
+      store = s
+    })
   })
 
   const toJSON = x => JSON.parse(JSON.stringify(x))
@@ -46,11 +111,7 @@ describe('Vuex store', () => {
 
   it('can enter new todo text', () => {
     const text = 'learn how to test with Cypress.io'
-    cy
-      .get('.todoapp')
-      .find('.new-todo')
-      .type(text)
-      .trigger('change')
+    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
 
     getFromStore('newTodo').should('equal', text)
   })
@@ -68,11 +129,7 @@ describe('Vuex store', () => {
     enterTodo(title)
 
     const text = 'learn how to test with Cypress.io'
-    cy
-      .get('.todoapp')
-      .find('.new-todo')
-      .type(text)
-      .trigger('change')
+    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
 
     getStore().should('deep.equal', {
       loading: false,
@@ -140,10 +197,7 @@ describe('Vuex store', () => {
     store.dispatch('clearNewTodo')
 
     // assert UI
-    getTodoItems()
-      .should('have.length', 1)
-      .first()
-      .contains('a new todo')
+    getTodoItems().should('have.length', 1).first().contains('a new todo')
 
     // assert store
     getStore().should('deep.equal', {
