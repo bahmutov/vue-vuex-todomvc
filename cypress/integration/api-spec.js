@@ -10,6 +10,86 @@ import {
 } from './utils'
 
 // testing TodoMVC server API
+describe('via API', () => {
+  beforeEach(resetDatabase)
+
+  // used to create predictable ids
+  let counter = 1
+  beforeEach(() => {
+    counter = 1
+  })
+
+  const addTodo = title =>
+    cy.request('POST', '/todos', {
+      title,
+      completed: false,
+      id: String(counter++)
+    })
+
+  const fetchTodos = () => cy.request('/todos').its('body')
+
+  const deleteTodo = id => cy.request('DELETE', `/todos/${id}`)
+
+  it('adds todo', () => {
+    addTodo('first todo')
+    addTodo('second todo')
+    fetchTodos().should('have.length', 2)
+  })
+
+  it('adds todo deep', () => {
+    addTodo('first todo')
+    addTodo('second todo')
+    fetchTodos().should('deep.equal', [
+      {
+        title: 'first todo',
+        completed: false,
+        id: '1'
+      },
+      {
+        title: 'second todo',
+        completed: false,
+        id: '2'
+      }
+    ])
+  })
+
+  it('adds and deletes a todo', () => {
+    addTodo('first todo') // id "1"
+    addTodo('second todo') // id "2"
+    deleteTodo('2')
+    fetchTodos().should('deep.equal', [
+      {
+        title: 'first todo',
+        completed: false,
+        id: '1'
+      }
+    ])
+  })
+})
+
+it('initial todos', () => {
+  cy.server()
+  cy.route('/todos', [
+    {
+      title: 'mock first',
+      completed: false,
+      id: '1'
+    },
+    {
+      title: 'mock second',
+      completed: true,
+      id: '2'
+    }
+  ])
+
+  visit()
+  getTodoItems()
+    .should('have.length', 2)
+    .contains('li', 'mock second')
+    .find('.toggle')
+    .should('be.checked')
+})
+
 describe('API', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
@@ -59,7 +139,7 @@ describe('API', () => {
       .should('equal', 404)
   })
 
-  it('observes API call from the store to the backend when adding todo item', () => {
+  it('is adding todo item', () => {
     cy.server()
     cy
       .route({
@@ -68,7 +148,8 @@ describe('API', () => {
       })
       .as('postTodo')
 
-    enterTodo('first item')
+    // go through the UI
+    enterTodo('first item') // id "1"
 
     // thanks to stubbed random id generator
     // we can "predict" what the TODO object is going to look like
@@ -82,7 +163,7 @@ describe('API', () => {
       })
   })
 
-  it('observes API call from the store to the backend when deleting a todo item', () => {
+  it('is deleting a todo item', () => {
     cy.server()
     cy
       .route({
@@ -91,7 +172,8 @@ describe('API', () => {
       })
       .as('deleteTodo')
 
-    enterTodo('first item')
+    // go through the UI
+    enterTodo('first item') // id "1"
     getTodoItems()
       .first()
       .find('.destroy')
