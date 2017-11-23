@@ -213,3 +213,120 @@ describe('Vuex store', () => {
     })
   })
 })
+
+describe('Store actions', () => {
+  const getStore = () => cy.window().its('app.$store')
+
+  beforeEach(resetDatabase)
+  beforeEach(visit)
+  beforeEach(stubMathRandom)
+
+  it('changes the state', () => {
+    getStore().then(store => {
+      store.dispatch('setNewTodo', 'a new todo')
+      store.dispatch('addTodo')
+      store.dispatch('clearNewTodo')
+    })
+
+    getStore().its('state').should('deep.equal', {
+      loading: false,
+      todos: [
+        {
+          title: 'a new todo',
+          completed: false,
+          id: '1'
+        }
+      ],
+      newTodo: ''
+    })
+  })
+
+  it('changes the state after delay', () => {
+    // this will force store action "setNewTodo" to commit
+    // change to the store only after 3 seconds
+    cy.server()
+    cy.route({
+      method: 'POST',
+      url: '/todos',
+      delay: 3000,
+      response: {}
+    })
+
+    getStore().then(store => {
+      store.dispatch('setNewTodo', 'a new todo')
+      store.dispatch('addTodo')
+      store.dispatch('clearNewTodo')
+    })
+
+    getStore().its('state').should('deep.equal', {
+      loading: false,
+      todos: [
+        {
+          title: 'a new todo',
+          completed: false,
+          id: '1'
+        }
+      ],
+      newTodo: ''
+    })
+  })
+
+  it('changes the ui', () => {
+    getStore().then(store => {
+      store.dispatch('setNewTodo', 'a new todo')
+      store.dispatch('addTodo')
+      store.dispatch('clearNewTodo')
+    })
+
+    // assert UI
+    getTodoItems().should('have.length', 1).first().contains('a new todo')
+  })
+
+  it('calls server', () => {
+    cy.server()
+    cy
+      .route({
+        method: 'POST',
+        url: '/todos'
+      })
+      .as('postTodo')
+
+    getStore().then(store => {
+      store.dispatch('setNewTodo', 'a new todo')
+      store.dispatch('addTodo')
+      store.dispatch('clearNewTodo')
+    })
+
+    // assert server call
+    cy.wait('@postTodo').its('request.body').should('deep.equal', {
+      title: 'a new todo',
+      completed: false,
+      id: '1'
+    })
+  })
+
+  it('calls server with delay', () => {
+    cy.server()
+    cy
+      .route({
+        method: 'POST',
+        url: '/todos',
+        delay: 3000,
+        response: {}
+      })
+      .as('postTodo')
+
+    getStore().then(store => {
+      store.dispatch('setNewTodo', 'a new todo')
+      store.dispatch('addTodo')
+      store.dispatch('clearNewTodo')
+    })
+
+    // assert server call - will wait 3 seconds until stubbed server responds
+    cy.wait('@postTodo').its('request.body').should('deep.equal', {
+      title: 'a new todo',
+      completed: false,
+      id: '1'
+    })
+  })
+})
