@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* global cy */
+/* global cy, Cypress */
 import {
   resetDatabase,
   visit,
@@ -18,41 +18,56 @@ describe('UI to Vuex store', () => {
   const getStore = () => cy.window().its('app.$store')
 
   it('has loading, newTodo and todos properties', () => {
-    getStore().its('state').should('have.keys', ['loading', 'newTodo', 'todos'])
+    getStore()
+      .its('state')
+      .should('have.keys', ['loading', 'newTodo', 'todos'])
   })
 
   it('starts empty', () => {
-    getStore().its('state').should('deep.equal', {
-      loading: true, // initially the store is loading data
-      todos: [],
-      newTodo: ''
-    })
+    getStore()
+      .its('state')
+      .should('deep.equal', {
+        loading: true, // initially the store is loading data
+        todos: [],
+        newTodo: ''
+      })
   })
 
   it('can enter new todo text', () => {
     const text = 'learn how to test with Cypress.io'
-    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
+    cy
+      .get('.todoapp')
+      .find('.new-todo')
+      .type(text)
+      .trigger('change')
 
-    getStore().its('state.newTodo').should('equal', text)
+    getStore()
+      .its('state.newTodo')
+      .should('equal', text)
   })
 
   it('stores todos in the store', () => {
     enterTodo('first todo')
     enterTodo('second todo')
 
-    getStore().its('state.todos').should('have.length', 2)
+    getStore()
+      .its('state.todos')
+      .should('have.length', 2)
 
     const removeIds = list => list.map(todo => Cypress._.omit(todo, 'id'))
-    getStore().its('state.todos').then(removeIds).should('deep.equal', [
-      {
-        title: 'first todo',
-        completed: false
-      },
-      {
-        title: 'second todo',
-        completed: false
-      }
-    ])
+    getStore()
+      .its('state.todos')
+      .then(removeIds)
+      .should('deep.equal', [
+        {
+          title: 'first todo',
+          completed: false
+        },
+        {
+          title: 'second todo',
+          completed: false
+        }
+      ])
   })
 
   const stubMathRandom = () => {
@@ -69,20 +84,24 @@ describe('UI to Vuex store', () => {
     enterTodo('first todo')
     enterTodo('second todo')
 
-    getStore().its('state.todos').should('have.length', 2)
+    getStore()
+      .its('state.todos')
+      .should('have.length', 2)
 
-    getStore().its('state.todos').should('deep.equal', [
-      {
-        title: 'first todo',
-        completed: false,
-        id: '1'
-      },
-      {
-        title: 'second todo',
-        completed: false,
-        id: '2'
-      }
-    ])
+    getStore()
+      .its('state.todos')
+      .should('deep.equal', [
+        {
+          title: 'first todo',
+          completed: false,
+          id: '1'
+        },
+        {
+          title: 'second todo',
+          completed: false,
+          id: '2'
+        }
+      ])
   })
 })
 
@@ -94,9 +113,13 @@ describe('Vuex store', () => {
   let store
 
   beforeEach(() => {
-    cy.window().its('app').its('$store').then(s => {
-      store = s
-    })
+    cy
+      .window()
+      .its('app')
+      .its('$store')
+      .then(s => {
+        store = s
+      })
   })
 
   const toJSON = x => JSON.parse(JSON.stringify(x))
@@ -117,7 +140,11 @@ describe('Vuex store', () => {
 
   it('can enter new todo text', () => {
     const text = 'learn how to test with Cypress.io'
-    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
+    cy
+      .get('.todoapp')
+      .find('.new-todo')
+      .type(text)
+      .trigger('change')
 
     getFromStore('newTodo').should('equal', text)
   })
@@ -135,7 +162,11 @@ describe('Vuex store', () => {
     enterTodo(title)
 
     const text = 'learn how to test with Cypress.io'
-    cy.get('.todoapp').find('.new-todo').type(text).trigger('change')
+    cy
+      .get('.todoapp')
+      .find('.new-todo')
+      .type(text)
+      .trigger('change')
 
     getStore().should('deep.equal', {
       loading: false,
@@ -203,7 +234,10 @@ describe('Vuex store', () => {
     store.dispatch('clearNewTodo')
 
     // assert UI
-    getTodoItems().should('have.length', 1).first().contains('a new todo')
+    getTodoItems()
+      .should('have.length', 1)
+      .first()
+      .contains('a new todo')
 
     // assert store
     getStore().should('deep.equal', {
@@ -234,17 +268,19 @@ describe('Store actions', () => {
       store.dispatch('clearNewTodo')
     })
 
-    getStore().its('state').should('deep.equal', {
-      loading: false,
-      todos: [
-        {
-          title: 'a new todo',
-          completed: false,
-          id: '1'
-        }
-      ],
-      newTodo: ''
-    })
+    getStore()
+      .its('state')
+      .should('deep.equal', {
+        loading: false,
+        todos: [
+          {
+            title: 'a new todo',
+            completed: false,
+            id: '1'
+          }
+        ],
+        newTodo: ''
+      })
   })
 
   it('changes the state after delay', () => {
@@ -264,17 +300,19 @@ describe('Store actions', () => {
       store.dispatch('clearNewTodo')
     })
 
-    getStore().its('state').should('deep.equal', {
-      loading: false,
-      todos: [
-        {
-          title: 'a new todo',
-          completed: false,
-          id: '1'
-        }
-      ],
-      newTodo: ''
-    })
+    getStore()
+      .its('state')
+      .should('deep.equal', {
+        loading: false,
+        todos: [
+          {
+            title: 'a new todo',
+            completed: false,
+            id: '1'
+          }
+        ],
+        newTodo: ''
+      })
   })
 
   it('changes the ui', () => {
@@ -285,7 +323,10 @@ describe('Store actions', () => {
     })
 
     // assert UI
-    getTodoItems().should('have.length', 1).first().contains('a new todo')
+    getTodoItems()
+      .should('have.length', 1)
+      .first()
+      .contains('a new todo')
   })
 
   it('calls server', () => {
@@ -304,11 +345,14 @@ describe('Store actions', () => {
     })
 
     // assert server call
-    cy.wait('@postTodo').its('request.body').should('deep.equal', {
-      title: 'a new todo',
-      completed: false,
-      id: '1'
-    })
+    cy
+      .wait('@postTodo')
+      .its('request.body')
+      .should('deep.equal', {
+        title: 'a new todo',
+        completed: false,
+        id: '1'
+      })
   })
 
   it('calls server with delay', () => {
@@ -329,10 +373,13 @@ describe('Store actions', () => {
     })
 
     // assert server call - will wait 3 seconds until stubbed server responds
-    cy.wait('@postTodo').its('request.body').should('deep.equal', {
-      title: 'a new todo',
-      completed: false,
-      id: '1'
-    })
+    cy
+      .wait('@postTodo')
+      .its('request.body')
+      .should('deep.equal', {
+        title: 'a new todo',
+        completed: false,
+        id: '1'
+      })
   })
 })

@@ -1,6 +1,7 @@
-/* global Vue, Vuex, axios */
+/* global Vue, Vuex, axios, FileReader */
 ;(function () {
   Vue.use(Vuex)
+  Vue.use(window['bootstrap-vue'])
 
   function randomId () {
     return Math.random()
@@ -84,6 +85,9 @@
   // app Vue instance
   const app = new Vue({
     store,
+    data: {
+      file: null
+    },
     el: '.todoapp',
 
     created () {
@@ -116,6 +120,20 @@
 
       removeTodo (todo) {
         this.$store.dispatch('removeTodo', todo)
+      },
+
+      uploadTodos (e) {
+        // either set component data.file to test file
+        // or read it off the native event
+        const f = this.file || e.target.files[0]
+        const reader = new FileReader()
+        reader.onload = e => {
+          const list = JSON.parse(e.target.result)
+          list.forEach(todo => {
+            this.$store.commit('ADD_TODO', todo)
+          })
+        }
+        reader.readAsText(f)
       }
     }
   })

@@ -16,9 +16,15 @@ export const visit = () => cy.visit('/')
 
 export const getTodoApp = () => cy.get('.todoapp')
 
-export const getTodoItems = () => getTodoApp().find('.todo-list').find('li')
+export const getTodoItems = () =>
+  getTodoApp()
+    .find('.todo-list')
+    .find('li')
 
-export const newId = () => Math.random().toString().substr(2, 10)
+export const newId = () =>
+  Math.random()
+    .toString()
+    .substr(2, 10)
 
 // if we expose "newId" factory method from the application
 // we can easily stub it. But this is a realistic example of
@@ -47,4 +53,6 @@ export const makeTodo = (text = 'todo') => {
 }
 
 export const enterTodo = (text = 'example todo') =>
-  getTodoApp().find('.new-todo').type(`${text}{enter}`)
+  getTodoApp()
+    .find('.new-todo')
+    .type(`${text}{enter}`)
