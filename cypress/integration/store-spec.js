@@ -39,6 +39,9 @@ describe('UI to Vuex store', () => {
   it('stores todos in the store', () => {
     enterTodo('first todo')
     enterTodo('second todo')
+
+    getStore().its('state.todos').should('have.length', 2)
+
     const removeIds = list => list.map(todo => Cypress._.omit(todo, 'id'))
     getStore().its('state.todos').then(removeIds).should('deep.equal', [
       {
@@ -65,6 +68,9 @@ describe('UI to Vuex store', () => {
     stubMathRandom()
     enterTodo('first todo')
     enterTodo('second todo')
+
+    getStore().its('state.todos').should('have.length', 2)
+
     getStore().its('state.todos').should('deep.equal', [
       {
         title: 'first todo',
