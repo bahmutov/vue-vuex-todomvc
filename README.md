@@ -5,6 +5,8 @@ and [Vuex](https://vuex.vuejs.org/en/) data store.
 
 Based on [this Vuex tutorial](https://codeburst.io/build-a-simple-todo-app-with-vue-js-1778ae175514) and the basic official [TodoMVC vue.js example](https://github.com/vuejs/vue/tree/dev/examples/todomvc)
 
+Read my [step by step tutorial](https://glebbahmutov.com/blog/vue-vuex-rest-todomvx/) explaining the code.
+
 ## Software organization
 
 ![Vue Vuex REST data flow](vue-vuex-rest.png)
