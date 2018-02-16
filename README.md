@@ -1,5 +1,7 @@
 # vue-vuex-todomvc [![Build Status](https://travis-ci.org/bahmutov/vue-vuex-todomvc.svg?branch=master)](https://travis-ci.org/bahmutov/vue-vuex-todomvc)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bahmutov/vue-vuex-todomvc.svg)](https://greenkeeper.io/)
+
 Simple TodoMVC with [Vue.js](https://vuejs.org/)
 and [Vuex](https://vuex.vuejs.org/en/) data store.
 
