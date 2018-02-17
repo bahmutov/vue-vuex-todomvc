@@ -6,7 +6,8 @@
   "scripts": {
     "test": "start-server-and-test start http://localhost:3000 cy:run",
     "test:record": "start-server-and-test start http://localhost:3000 cy:run:record",
-    "start": "json-server --static . --watch data.json",
+    "prestart": "npm run reset:database",
+    "start": "json-server data.json --static . --middlewares ./node_modules/json-server-reset",
     "poststart": "npm run reset:database",
     "pretest": "npm run lint",
     "lint": "standard '*.js' 'cypress/integration/*.js'",
@@ -14,6 +15,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:record": "cypress run --record",
+    "cy:verify": "cypress verify",
     "reset:database": "echo '{\"todos\":[]}\n' > data.json"
   },
   "repository": {
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "cypress": "^2.0.0",
+    "json-server-reset": "1.0.0",
     "prettier-standard": "^8.0.0",
     "standard": "^10.0.3",
     "start-server-and-test": "^1.0.0"

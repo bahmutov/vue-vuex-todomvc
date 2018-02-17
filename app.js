@@ -1,7 +1,6 @@
 /* global Vue, Vuex, axios, FileReader */
 ;(function () {
   Vue.use(Vuex)
-  Vue.use(window['bootstrap-vue'])
 
   function randomId () {
     return Math.random()
