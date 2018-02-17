@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "posttest": "npm run reset:database",
     "test:record": "start-server-and-test start http://localhost:3000 cy:run:record",
     "prestart": "npm run reset:database",
     "start": "json-server data.json --static . --middlewares ./node_modules/json-server-reset",

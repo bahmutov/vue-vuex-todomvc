@@ -11,7 +11,7 @@ before_script:
   - npm prune
 script:
   - npm run cy:verify
-  - npm run test:record
+  - travis_retry npm run test:record
 branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
