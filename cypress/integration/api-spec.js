@@ -10,7 +10,7 @@ import {
 } from './utils'
 
 // testing TodoMVC server API
-describe('via API', () => {
+describe.skip('via API', () => {
   beforeEach(resetDatabase)
 
   // used to create predictable ids
@@ -90,7 +90,7 @@ it('initial todos', () => {
     .should('be.checked')
 })
 
-describe('API', () => {
+describe.skip('API', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
   beforeEach(stubMathRandom)

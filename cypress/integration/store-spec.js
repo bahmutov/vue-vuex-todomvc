@@ -11,7 +11,7 @@ import {
 } from './utils'
 
 // testing the central Vuex data store
-describe('UI to Vuex store', () => {
+describe.skip('UI to Vuex store', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
 
@@ -105,7 +105,7 @@ describe('UI to Vuex store', () => {
   })
 })
 
-describe('Vuex store', () => {
+describe.skip('Vuex store', () => {
   beforeEach(resetDatabase)
   beforeEach(visit)
   beforeEach(stubMathRandom)
@@ -254,7 +254,7 @@ describe('Vuex store', () => {
   })
 })
 
-describe('Store actions', () => {
+describe.skip('Store actions', () => {
   const getStore = () => cy.window().its('app.$store')
 
   beforeEach(resetDatabase)
