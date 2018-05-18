@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 it.only('opens the page', () => {
   cy.visit('http://localhost:3000')
-  cy.get('.new-todo').should('be.visible')
+  cy.get('.new-todo')
+    .should('be.visible')
 })
 
 it('adds 2 todos', () => {
@@ -15,7 +16,8 @@ it('adds 2 todos', () => {
 
 describe('todos', () => {
   beforeEach(() => {
-    cy.request('POST', 'http://localhost:3000/reset', { todos: [] })
+    cy.request('POST', 'http://localhost:3000/reset',
+      { todos: [] })
     cy.visit('http://localhost:3000')
   })
 
@@ -23,15 +25,17 @@ describe('todos', () => {
     cy.get('.new-todo')
       .type('learn testing{enter}')
       .type('be cool{enter}')
-    cy.get('.todo-list li').should('have.length', 2)
+    cy.get('.todo-list li')
+      .should('have.length', 2)
   })
 
   it.skip('wait for text to appear', () => {
     cy.get('.new-todo')
       .type('learn testing{enter}')
       .type('be cool{enter}')
-    cy.get('.todo-list li').should('have.length', 2)
-    cy.contains('foo', {timeout: 100000})
+    cy.get('.todo-list li')
+      .should('have.length', 2)
+    cy.contains('foo', {timeout: 60000})
   })
 })
 
@@ -47,7 +51,7 @@ it('mocks todos', () => {
     .should('have.length', 1)
 })
 
-it.only('mocks todos using fixture', () => {
+it.skip('mocks todos using fixture', () => {
   cy.server()
   cy.route('http://localhost:3000/todos', 'fx:todos')
   cy.visit('http://localhost:3000')
