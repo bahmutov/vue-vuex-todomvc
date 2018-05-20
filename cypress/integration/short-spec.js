@@ -5,7 +5,7 @@ it('opens the page', () => {
     .should('be.visible')
 })
 
-it('adds 2 todos', () => {
+it.only('adds 2 todos', () => {
   cy.visit('http://localhost:3000')
   cy.get('.new-todo')
     .type('learn testing{enter}')
