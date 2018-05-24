@@ -1,5 +1,7 @@
 {
   "baseUrl": "http://localhost:3000",
   "videoRecording": true,
-  "projectId": "4kdnzs"
+  "projectId": "4kdnzs",
+  "viewportWidth": 600,
+  "viewportHeight": 660
 }

@@ -2,16 +2,16 @@
 it.only('opens the page', () => {
   cy.visit('http://localhost:3000')
   cy.get('.new-todo')
-  .should('be.visible')
+    .should('be.visible')
 })
 
-it.skip('adds 2 todos', () => {
+it('adds 2 todos', () => {
   cy.visit('http://localhost:3000')
   cy.get('.new-todo')
-  .type('learn testing{enter}')
-  .type('be cool{enter}')
-  cy.get('.todo-list li')
-  .should('have.length', 2)
+    .type('learn testing{enter}')
+    .type('be cool{enter}')
+  cy.get('.todo-list li', {timeout: 1000000})
+    .should('have.length', 2)
 })
 
 describe('todos', () => {
