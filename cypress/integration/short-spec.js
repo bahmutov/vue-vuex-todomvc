@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 it.only('opens the page', () => {
   cy.visit('http://localhost:3000')
-  cy.get('.new-todo')
-    .should('be.visible')
+  cy.get('.new-todo') // command
+    .should('be.visible') // assertion
 })
 
 it('adds 2 todos', () => {
@@ -10,8 +10,8 @@ it('adds 2 todos', () => {
   cy.get('.new-todo')
     .type('learn testing{enter}')
     .type('be cool{enter}')
-  cy.get('.todo-list li', {timeout: 1000000})
-    .should('have.length', 2)
+  cy.get('.todo-list li') // command
+    .should('have.length', 2) // assertion
 })
 
 describe('todos', () => {
