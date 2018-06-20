@@ -1,6 +1,10 @@
 /// <reference types="cypress" />
 it.only('opens the page', () => {
   cy.visit('http://localhost:3000')
+})
+
+it('has input element', () => {
+  cy.visit('http://localhost:3000')
   cy.get('.new-todo') // command
     .should('be.visible') // assertion
 })
@@ -10,7 +14,7 @@ it('adds 2 todos', () => {
   cy.get('.new-todo')
     .type('learn testing{enter}')
     .type('be cool{enter}')
-  cy.get('.todo-list li') // command
+  cy.get('.todo-list li', {timeout: 60000}) // command
     .should('have.length', 2) // assertion
 })
 
@@ -41,20 +45,21 @@ describe('todos', () => {
 
 it('mocks todos', () => {
   cy.server()
-  cy.route('http://localhost:3000/todos', [{
+  cy.route('/todos', [{
     completed: true,
     id: '111',
     title: 'stub server'
   }])
-  cy.visit('http://localhost:3000')
+  cy.visit('/')
   cy.get('.todo-list li.completed')
     .should('have.length', 1)
 })
 
 it('mocks todos using fixture', () => {
   cy.server()
-  cy.route('http://localhost:3000/todos', 'fx:todos')
-  cy.visit('http://localhost:3000')
+  cy.route('/todos', 'fx:todos')
+  cy.visit('/')
+
   cy.log('checking completed items')
   cy.get('.todo-list li.completed')
     .should('have.length', 2)
@@ -66,11 +71,16 @@ it('mocks todos using fixture', () => {
 it('mocks todos using fixture with delay', () => {
   cy.server()
   cy.route({
-    url: 'http://localhost:3000/todos',
+    url: '/todos',
     response: 'fx:todos',
-    delay: 1000
+    delay: 3000
   })
-  cy.visit('http://localhost:3000')
+  cy.visit('/')
+  // initially has 0 items, because the "GET /todos" response is delayed
+  cy.get('.todo-list li')
+    .should('have.length', 0)
+
+  // when "GET /todos" actually returns, DOM will show these items
   cy.log('checking completed items')
   cy.get('.todo-list li.completed')
     .should('have.length', 2)
