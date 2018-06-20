@@ -14,7 +14,7 @@ it('adds 2 todos', () => {
   cy.get('.new-todo')
     .type('learn testing{enter}')
     .type('be cool{enter}')
-  cy.get('.todo-list li', {timeout: 60000}) // command
+  cy.get('.todo-list li') // command
     .should('have.length', 2) // assertion
 })
 
