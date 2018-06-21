@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-it.only('opens the page', () => {
+it('opens the page', () => {
   cy.visit('http://localhost:3000')
 })
 
@@ -55,7 +55,8 @@ it('mocks todos', () => {
     .should('have.length', 1)
 })
 
-it('mocks todos using fixture', () => {
+it.only('mocks todos using fixture', () => {
+  cy.pause()
   cy.server()
   cy.route('/todos', 'fx:todos')
   cy.visit('/')

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+//@ts-check
 beforeEach(() => {
   cy.visit('/')
 })
