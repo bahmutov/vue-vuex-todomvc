@@ -37,6 +37,6 @@
     "json-server-reset": "1.0.0",
     "prettier-standard": "8.0.0",
     "standard": "11.0.1",
-    "start-server-and-test": "1.1.0"
+    "start-server-and-test": "1.7.0"
   }
 }
