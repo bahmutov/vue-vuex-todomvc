@@ -33,7 +33,7 @@
     "json-server": "0.14.1"
   },
   "devDependencies": {
-    "cypress": "2.1.0",
+    "cypress": "3.1.4",
     "json-server-reset": "1.0.0",
     "prettier-standard": "8.0.0",
     "standard": "12.0.1",
