@@ -36,7 +36,7 @@
     "cypress": "3.1.4",
     "json-server-reset": "1.0.0",
     "prettier-standard": "8.0.0",
-    "standard": "12.0.1",
+    "standard": "13.1.0",
     "start-server-and-test": "1.7.10"
   }
 }
