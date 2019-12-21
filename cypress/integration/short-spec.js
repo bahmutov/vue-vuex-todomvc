@@ -1,10 +1,14 @@
 /// <reference types="cypress" />
+import { resetDatabase } from './utils'
+
 it('opens the page', () => {
+  resetDatabase()
   cy.visit('http://localhost:3000')
   cy.get('.new-todo').should('be.visible')
 })
 
 it('adds 2 todos', () => {
+  resetDatabase()
   cy.visit('http://localhost:3000')
   cy.get('.new-todo')
     .type('learn testing{enter}')
@@ -15,7 +19,7 @@ it('adds 2 todos', () => {
 
 describe('todos', () => {
   beforeEach(() => {
-    cy.request('POST', 'http://localhost:3000/reset', { todos: [] })
+    resetDatabase()
     cy.visit('http://localhost:3000')
   })
 
