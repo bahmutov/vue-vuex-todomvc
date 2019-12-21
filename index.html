@@ -25,7 +25,7 @@
             :key="todo.id"
             :class="{ completed: todo.completed }">
             <div class="view">
-              <input class="toggle" type="checkbox" v-model="todo.completed">
+              <input class="toggle" type="checkbox" :checked="todo.completed" @change="changeTodoCompleted(todo, $event)">
               <label>{{ todo.title }}</label>
               <button class="destroy" @click="removeTodo(todo)"></button>
             </div>

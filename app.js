@@ -9,6 +9,7 @@
   }
 
   const store = new Vuex.Store({
+    strict: true,
     state: {
       loading: true,
       todos: [],
@@ -39,6 +40,14 @@
       CLEAR_NEW_TODO (state) {
         state.newTodo = ''
         console.log('clearing new todo')
+      },
+      CHANGE_TODO_COMPLETED (state, { todo, checked }) {
+        var todos = state.todos
+        todos.splice(
+          todos.indexOf(todo),
+          1,
+          Object.assign({}, todo, { completed: checked })
+        )
       }
     },
     actions: {
@@ -77,6 +86,11 @@
       },
       clearNewTodo ({ commit }) {
         commit('CLEAR_NEW_TODO')
+      },
+      changeTodoCompleted ({ commit }, { todo, checked }) {
+        axios.patch('/todos/' + todo.id, { completed: checked }).then(_ => {
+          commit('CHANGE_TODO_COMPLETED', { todo, checked })
+        })
       }
     }
   })
@@ -119,6 +133,13 @@
 
       removeTodo (todo) {
         this.$store.dispatch('removeTodo', todo)
+      },
+
+      changeTodoCompleted (todo, e) {
+        this.$store.dispatch('changeTodoCompleted', {
+          todo: todo,
+          checked: e.target.checked
+        })
       },
 
       uploadTodos (e) {
