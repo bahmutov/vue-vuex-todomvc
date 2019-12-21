@@ -12,6 +12,9 @@ export const getTodoItems = () =>
     .find('.todo-list')
     .find('li')
 
+export const getTodoItem = (index = 1) =>
+  cy.get(`.todo-list li:nth-child(${index})`)
+
 export const newId = () =>
   Math.random()
     .toString()

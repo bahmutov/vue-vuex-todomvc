@@ -5,7 +5,8 @@ import {
   visit,
   getTodoApp,
   enterTodo,
-  getTodoItems
+  getTodoItems,
+  getTodoItem
 } from './utils'
 
 it('loads the app', () => {
@@ -33,6 +34,19 @@ describe('UI', () => {
       enterTodo('first item')
       enterTodo('second item')
       getTodoItems().should('have.length', 2)
+    })
+
+    it('completes and item', () => {
+      enterTodo('first item')
+      enterTodo('second item')
+      getTodoItem(1).should('not.have.class', 'completed')
+      getTodoItem(2).should('not.have.class', 'completed')
+      getTodoItem(2).find('.toggle').check()
+      getTodoItem(2).should('have.class', 'completed')
+      // reload the data - 2nd item should still be completed
+      cy.reload()
+      getTodoItem(1).should('not.have.class', 'completed')
+      getTodoItem(2).should('have.class', 'completed')
     })
   })
 
