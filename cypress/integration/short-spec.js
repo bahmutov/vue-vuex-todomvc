@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 import { resetDatabase } from './utils'
 
-it('opens the page', () => {
+it.only('opens the page', () => {
   resetDatabase()
   cy.visit('http://localhost:3000')
   cy.get('.new-todo').should('be.visible')

@@ -14,4 +14,13 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  on('before:browser:launch', (browser, args) => {
+    console.log('browser is', browser)
+
+    if (browser.family === 'chrome') {
+      console.log('loading Vue DevTools extension')
+      args.push('--load-extension=/Users/gleb/git/vue-devtools/packages/shell-chrome')
+      return args
+    }
+  })
 }

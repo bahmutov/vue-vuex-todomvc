@@ -1,4 +1,12 @@
 /* global Vue, Vuex, axios, FileReader */
+// https://github.com/storybookjs/storybook/pull/1376
+if (window.Cypress) {
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+  window.parent.__VUE_DEVTOOLS_CONTEXT__ = window.document;
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = Vue;
+  debugger
+}
+
 ;(function () {
   Vue.use(Vuex)
 
