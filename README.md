@@ -1,4 +1,4 @@
-# vue-vuex-todomvc [![Build Status](https://travis-ci.org/bahmutov/vue-vuex-todomvc.svg?branch=master)](https://travis-ci.org/bahmutov/vue-vuex-todomvc)
+# vue-vuex-todomvc [![renovate-app badge][renovate-badge]][renovate-app] [![ci status][ci image]][ci url]
 
 Simple TodoMVC with [Vue.js](https://vuejs.org/)
 and [Vuex](https://vuex.vuejs.org/en/) data store.
@@ -48,3 +48,8 @@ Or print them as a table
 ```js
 console.table(app.$store.getters.todos.map(JSON.stringify).map(JSON.parse))
 ```
+
+[ci image]: https://github.com/bahmutov/vue-vuex-todomvc/workflows/ci/badge.svg?branch=master
+[ci url]: https://github.com/bahmutov/vue-vuex-todomvc/actions
+[renovate-badge]: https://img.shields.io/badge/renovate-app-blue.svg
+[renovate-app]: https://renovateapp.com/
