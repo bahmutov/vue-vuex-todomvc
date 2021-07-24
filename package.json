@@ -36,7 +36,7 @@
     "todomvc-common": "1.0.5"
   },
   "devDependencies": {
-    "cypress": "7.7.0",
+    "cypress": "8.0.0",
     "json-server-reset": "1.3.0",
     "prettier-standard": "16.4.1",
     "standard": "16.0.3",
