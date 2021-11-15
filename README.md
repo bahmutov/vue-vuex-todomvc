@@ -30,6 +30,10 @@ All tests are implemented using [Cypress.io](https://www.cypress.io/)
 - [API tests](cypress/integration/api-spec.js)
 - [Vuex store tests](cypress/integration/store-spec.js)
 
+### cy-spok example
+
+See the spec [new-item-spec.js](./cypress/integration/new-item-spec.js) that shows how to use [cy-spok](https://github.com/bahmutov/cy-spok) plugin to confirm the request object. Watch the introduction to cy-spok plugin video [here](https://youtu.be/MLDsqBd_gVU).
+
 ## Development
 
 The `app` global variable exposes the Vue instance.
