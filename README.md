@@ -1,4 +1,4 @@
-# vue-vuex-todomvc [![renovate-app badge][renovate-badge]][renovate-app] [![ci status][ci image]][ci url]
+# vue-vuex-todomvc [![renovate-app badge][renovate-badge]][renovate-app] [![ci status][ci image]][ci url] ![cypress version](https://img.shields.io/badge/cypress-9.0.0-brightgreen)
 
 Simple TodoMVC with [Vue.js](https://vuejs.org/)
 and [Vuex](https://vuex.vuejs.org/en/) data store.
@@ -48,6 +48,22 @@ Or print them as a table
 ```js
 console.table(app.$store.getters.todos.map(JSON.stringify).map(JSON.parse))
 ```
+
+## Small print
+
+Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2021
+
+- [@bahmutov](https://twitter.com/bahmutov)
+- [glebbahmutov.com](https://glebbahmutov.com)
+- [blog](https://glebbahmutov.com/blog)
+- [videos](https://www.youtube.com/glebbahmutov)
+- [presentations](https://slides.com/bahmutov)
+- [cypress.tips](https://cypress.tips)
+
+License: MIT - do anything with the code, but don't blame me if it does not work.
+
+Support: if you find any problems with this module, email / tweet /
+[open issue](https://github.com/bahmutov/vue-vuex-todomvc/issues) on Github
 
 [ci image]: https://github.com/bahmutov/vue-vuex-todomvc/workflows/ci/badge.svg?branch=master
 [ci url]: https://github.com/bahmutov/vue-vuex-todomvc/actions
