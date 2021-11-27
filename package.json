@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "cy-spok": "1.4.1",
-    "cypress": "9.0.0",
+    "cypress": "9.1.0",
     "json-server-reset": "1.3.0",
     "prettier-standard": "16.4.1",
     "standard": "16.0.4",
