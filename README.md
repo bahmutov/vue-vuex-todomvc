@@ -1,4 +1,4 @@
-# vue-vuex-todomvc [![renovate-app badge][renovate-badge]][renovate-app] [![ci status][ci image]][ci url] ![cypress version](https://img.shields.io/badge/cypress-9.1.1-brightgreen)
+# vue-vuex-todomvc [![renovate-app badge][renovate-badge]][renovate-app] [![ci status][ci image]][ci url] ![cypress version](https://img.shields.io/badge/cypress-9.2.0-brightgreen)
 
 Simple TodoMVC with [Vue.js](https://vuejs.org/)
 and [Vuex](https://vuex.vuejs.org/en/) data store.
