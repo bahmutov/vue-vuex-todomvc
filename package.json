@@ -18,6 +18,7 @@
     "cy:run:record": "cypress run --record",
     "cy:verify": "cypress verify",
     "reset:database": "echo '{\"todos\":[]}\n' > data.json",
+    "reset": "npm run reset:database",
     "dev": "start-test 3000 cy:open"
   },
   "repository": {
