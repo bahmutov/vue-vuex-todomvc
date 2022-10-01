@@ -15,23 +15,25 @@ describe('Todo API', () => {
 
     // spy on the POST request that adds a new TODO item
     cy.intercept('POST', '/todos').as('addTodo')
+    // stub the "Math.random" method to return known id
+    cy.window().its('Math').then(Math => {
+      cy.stub(Math, 'random').returns(0.12345)
+    })
     cy.get('.new-todo').type('new todo{enter}')
+    // we know know exactly the entire Todo object
+    const body = {
+      title: 'new todo',
+      completed: false,
+      id: '12345'
+    }
     cy.wait('@addTodo')
       .should(spok({
         request: {
-          body: {
-            title: 'new todo',
-            completed: false,
-            id: spok.test(/^\d+$/)
-          }
+          body
         },
         response: {
           statusCode: 201,
-          body: {
-            title: 'new todo',
-            completed: false,
-            id: spok.test(/^\d+$/)
-          }
+          body
         }
       }))
   })
