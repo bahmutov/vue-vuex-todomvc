@@ -3,9 +3,6 @@ import {
   resetDatabase,
 } from './utils'
 
-// https://github.com/bahmutov/cy-spok
-import spok from 'cy-spok'
-
 describe('Todo API', () => {
   beforeEach(resetDatabase)
 
@@ -17,11 +14,17 @@ describe('Todo API', () => {
     // spy on the POST request that adds a new TODO item
     cy.intercept('POST', '/todos').as('addTodo')
     cy.get('.new-todo').type('new todo{enter}')
-    cy.wait('@addTodo').its('request.body')
-      .should(spok({
-        title: spok.startsWith('new'),
-        completed: false,
-        id: spok.string,
-      }))
+    cy.wait('@addTodo')
+      .then(intercept => {
+        const { request, response } = intercept
+        expect(response, 'status code').to.have.property('statusCode', 201)
+        expect(request.body, 'request body').to.deep.include({
+          title: 'new todo',
+          completed: false
+        })
+        expect(request.body, 'todo id').to.have.property('id').and.to.be.a('string')
+          .and.to.match(/^\d+$/)
+        expect(request.body, 'body same as response').to.deep.equal(response.body)
+      })
   })
 })
