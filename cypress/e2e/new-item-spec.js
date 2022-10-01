@@ -3,6 +3,8 @@ import {
   resetDatabase,
 } from './utils'
 
+import spok from 'cy-spok'
+
 describe('Todo API', () => {
   beforeEach(resetDatabase)
 
@@ -15,16 +17,22 @@ describe('Todo API', () => {
     cy.intercept('POST', '/todos').as('addTodo')
     cy.get('.new-todo').type('new todo{enter}')
     cy.wait('@addTodo')
-      .then(intercept => {
-        const { request, response } = intercept
-        expect(response, 'status code').to.have.property('statusCode', 201)
-        expect(request.body, 'request body').to.deep.include({
-          title: 'new todo',
-          completed: false
-        })
-        expect(request.body, 'todo id').to.have.property('id').and.to.be.a('string')
-          .and.to.match(/^\d+$/)
-        expect(request.body, 'body same as response').to.deep.equal(response.body)
-      })
+      .should(spok({
+        request: {
+          body: {
+            title: 'new todo',
+            completed: false,
+            id: spok.test(/^\d+$/)
+          }
+        },
+        response: {
+          statusCode: 201,
+          body: {
+            title: 'new todo',
+            completed: false,
+            id: spok.test(/^\d+$/)
+          }
+        }
+      }))
   })
 })
