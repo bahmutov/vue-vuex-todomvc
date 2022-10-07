@@ -4,7 +4,7 @@ import { resetDatabase } from './utils'
 import spok from 'cy-spok'
 import todos from '../fixtures/example.json'
 
-describe('Todo API', () => {
+describe('Todo', () => {
   beforeEach(() => {
     resetDatabase(todos)
   })
@@ -23,6 +23,11 @@ describe('Todo API', () => {
       .then((o) => {
         Cypress._.update(o, 'n', Number)
         Cypress._.update(o, 'start_id', Number)
+      })
+      .should('deep.include', {
+        type: 'completed',
+        n: todos.length,
+        start_id: 201,
       })
       .should(
         spok({
