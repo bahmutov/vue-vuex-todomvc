@@ -40,7 +40,7 @@
     "cy-spok": "1.5.2",
     "cypress": "11.2.0",
     "json-server-reset": "1.5.0",
-    "prettier": "2.8.1",
+    "prettier": "2.8.2",
     "prettier-standard": "16.4.1",
     "standard": "17.0.0",
     "start-server-and-test": "1.15.2"
