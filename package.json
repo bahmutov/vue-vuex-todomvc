@@ -43,6 +43,6 @@
     "prettier": "2.8.3",
     "prettier-standard": "16.4.1",
     "standard": "17.0.0",
-    "start-server-and-test": "1.15.2"
+    "start-server-and-test": "1.15.3"
   }
 }
