@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/bahmutov/vue-vuex-todomvc#readme",
   "dependencies": {
-    "json-server": "0.17.1",
+    "json-server": "0.17.4",
     "todomvc-app-css": "2.4.2",
     "todomvc-common": "1.0.5"
   },
