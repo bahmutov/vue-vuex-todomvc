@@ -37,7 +37,7 @@
     "todomvc-common": "1.0.5"
   },
   "devDependencies": {
-    "cy-spok": "1.6.1",
+    "cy-spok": "1.6.2",
     "cypress": "11.2.0",
     "json-server-reset": "1.6.0",
     "prettier": "3.3.3",
